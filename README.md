@@ -1,13 +1,62 @@
-# OBJETIVO
-Criar um sistema bancário com as operações: sacar, depositar e visualizar extrato.
+# 🏦 Sistema Bancário Simples em Python
 
-## Operação de depósito
-Deve ser possível depositar valores positivos para a minha conta bancária. A v1 do projeto trabalha apenas com 1 usuário, dessa forma não precisamos nos preocupar em identificar qual é o número da agência e conta bancária. Todos os depósitos devem ser armazenados em uma variável e exibidos na operação de extrato.
+## 📋 Descrição
 
-## Operação de saque
-O sistema deve permitir realizar 3 saques diários com limite máximo de R$ 500,00 por saque. Caso o usuário não tenha saldo em conta, o sistema deve exibir uma mensagem informando que não será possível sacar o dinheiro por falta de saldo. Todos os saques devem ser armazenados em uma variável e exibidos na operação de extrato.
+Este projeto faz parte de um desafio da **DIO (Digital Innovation One)**, onde foi desenvolvido um **sistema bancário**  
+com funcionalidades básicas para uma conta corrente única.
 
-## Operação de extrato
-Essa operação deve listar todos os depósitos e saques realizados na conta. No fim da listagem deve ser exibido o saldo atual da conta. Se o extrato estiver em branco, exibir a mensagem: Não foram realizadas movimentações.
-Os valores devem ser exibidos utilizando o formato R$ xxx.xx, exemplo:
-1500.45 = R$ 1500.45
+🔹 **Operações disponíveis:**  
+✅ **Saque** → Retira um valor da conta, respeitando saldo e limite de saques diários.  
+✅ **Depósito** → Adiciona um valor à conta.  
+✅ **Extrato** → Exibe o histórico de transações e saldo disponível.  
+
+📌 O objetivo do projeto é praticar conceitos fundamentais de **Python**, como estrutura de dados, laços de repetição e manipulação de strings.  
+
+## 🛠️ Tecnologias Utilizadas
+
+- **Python** → Linguagem principal do projeto.  
+
+## 🚀 Como Executar o Projeto
+
+### Passo 1: Clonar o Repositório
+```bash
+git clone https://github.com/lyraleo23/dio-sistema-bancario.git
+cd dio-sistema-bancario
+```
+
+### Passo 2: Executar o Script Principal
+```bash
+python main.py
+```
+
+### Passo 3: Utilizar as Funcionalidades
+📌 No terminal, siga as instruções para realizar operações bancárias.
+
+### 📄 Estrutura do Projeto  
+```markdown
+📂 dio-sistema-bancario  
+ ├── main.py              # Script principal do sistema bancário
+ ├── operacoes.py         # Script com as operações bancárias
+ ├── README.md            # Documentação do projeto  
+```
+
+### 🧠 Conceitos Aplicados
+
+- **Manipulação de Variáveis** → Armazenamento e atualização de saldo.  
+- **Estruturas de Controle** → Condições e laços para operações bancárias.  
+- **Interação com o Usuário** → Entrada e saída de dados no terminal.  
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT.
+
+## 🤝 Contribuições
+
+Contribuições são bem-vindas! Caso encontre melhorias ou precise relatar problemas, sinta-se à vontade para abrir issues ou pull requests.
+
+## 📞 Contato
+
+- **Autor**: Leonardo Lyra  
+- **GitHub**: [lyraleo23](https://github.com/lyraleo23)  
+- **LinkedIn**: [Leonardo Lyra](https://www.linkedin.com/in/leonardo-lyra/)  
+
