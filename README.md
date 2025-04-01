@@ -2,8 +2,7 @@
 
 ## 📋 Descrição
 
-Este projeto faz parte de um desafio da **DIO (Digital Innovation One)**, onde foi desenvolvido um **sistema bancário**  
-com funcionalidades básicas para uma conta corrente única.
+Este projeto faz parte de um desafio da **DIO (Digital Innovation One)**, onde foi desenvolvido um **sistema bancário** com funcionalidades básicas para uma conta corrente única.
 
 🔹 **Operações disponíveis:**  
 ✅ **Saque** → Retira um valor da conta, respeitando saldo e limite de saques diários.  
