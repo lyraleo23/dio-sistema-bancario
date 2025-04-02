@@ -18,7 +18,7 @@ class Usuario:
 
 
     def verificar_cpf(self, cpf):
-        arquivo = 'usuarios.csv'
+        arquivo = './data/usuarios.csv'
         if os.path.exists(arquivo):
             with open(arquivo, 'r', encoding='utf-8') as f:
                 reader = csv.reader(f)
@@ -32,7 +32,7 @@ class Usuario:
     def novo_endereco(self, logradouro, numero, bairro, cidade, uf):
         return f'{logradouro}, {numero} - {bairro} - {cidade}/{uf}'
 
-    def salvar_usuario(self, arquivo='usuarios.csv'):
+    def salvar_usuario(self, arquivo='./data/usuarios.csv'):
         usuario_dados = [self.nome, self.data_nascimento, self.cpf, self.endereco]
         arquivo_existe = os.path.exists(arquivo)
 

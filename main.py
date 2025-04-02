@@ -60,7 +60,7 @@ def show_menu_non_cc(num_cpf):
 
 def obter_dados_cc(num_cpf, num_cc):
     try:
-        with open('contas.csv', 'r') as file:
+        with open('./data/contas.csv', 'r') as file:
             reader = csv.reader(file)
             for linha in reader:
                 if linha[0] == num_cc and linha[2] == num_cpf:
@@ -79,10 +79,10 @@ def obter_dados_cc(num_cpf, num_cc):
 
 def atualizar_conta(num_cc, agencia, usuario, saldo, extrato):
     try:
-        with open('contas.csv', 'r') as file:
+        with open('./data/contas.csv', 'r') as file:
             reader = list(csv.reader(file))
         
-        with open('contas.csv', 'w', newline='') as file:
+        with open('./data/contas.csv', 'w', newline='') as file:
             writer = csv.writer(file)
             for linha in reader:
                 if linha[0] == num_cc and linha[2] == usuario:
