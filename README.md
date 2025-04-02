@@ -2,18 +2,22 @@
 
 ## 📋 Descrição
 
-Este projeto faz parte de um desafio da **DIO (Digital Innovation One)**, onde foi desenvolvido um **sistema bancário** com funcionalidades básicas para uma conta corrente única.
+Este projeto faz parte de um desafio da **DIO (Digital Innovation One)**, onde foi desenvolvido um **sistema bancário** com funcionalidades de gerenciamento de contas correntes e operações financeiras básicas.
 
 🔹 **Operações disponíveis:**  
+✅ **Cadastro de Usuários** → Permite cadastrar novos clientes no sistema.  
+✅ **Cadastro de Contas Correntes** → Associa contas aos clientes cadastrados.  
+✅ **Login Simples** → O usuário informa sua conta e CPF ao iniciar o sistema.  
 ✅ **Saque** → Retira um valor da conta, respeitando saldo e limite de saques diários.  
 ✅ **Depósito** → Adiciona um valor à conta.  
 ✅ **Extrato** → Exibe o histórico de transações e saldo disponível.  
 
-📌 O objetivo do projeto é praticar conceitos fundamentais de **Python**, como estrutura de dados, laços de repetição e manipulação de strings.  
+📌 O sistema salva as informações de **usuários e contas bancárias** em arquivos **CSV**, garantindo persistência dos dados entre execuções.  
 
 ## 🛠️ Tecnologias Utilizadas
 
 - **Python** → Linguagem principal do projeto.  
+- **Manipulação de Arquivos CSV** → Persistência de dados.  
 
 ## 🚀 Como Executar o Projeto
 
@@ -34,16 +38,19 @@ python main.py
 ### 📄 Estrutura do Projeto  
 ```markdown
 📂 dio-sistema-bancario  
- ├── main.py              # Script principal do sistema bancário
- ├── operacoes.py         # Script com as operações bancárias
- ├── README.md            # Documentação do projeto  
+ ├── data/               # Pasta para armazenar arquivos CSV  
+ │   ├── usuarios.csv    # Armazena os usuários cadastrados  
+ │   ├── contas.csv      # Armazena as contas bancárias  
+ ├── main.py             # Script principal do sistema bancário  
+ ├── README.md           # Documentação do projeto  
 ```
 
 ### 🧠 Conceitos Aplicados
 
-- **Manipulação de Variáveis** → Armazenamento e atualização de saldo.  
-- **Estruturas de Controle** → Condições e laços para operações bancárias.  
-- **Interação com o Usuário** → Entrada e saída de dados no terminal.  
+- **Manipulação de Arquivos CSV** → Persistência de dados entre execuções.  
+- **Estruturas de Controle** → Uso de laços e condições para interação do usuário.  
+- **Interação com o Usuário** → Entrada e saída de dados via terminal.  
+- **Organização de Dados** → Associação de usuários e contas em estrutura persistente.
 
 ## 📄 Licença
 
