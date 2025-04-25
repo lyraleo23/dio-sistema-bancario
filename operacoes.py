@@ -1,5 +1,48 @@
-from Usuario import Usuario
-from Conta import Conta
+from Clientes import PessoaFisica
+from Contas import ContaCorrente
+import re
+
+
+def cadastrar_usuario():
+    nome = input('Informe o nome: ')
+    data_nascimento = input('Informe a data de nascimento: ')
+    cpf = input('Informe o CPF: ')
+    logradouro = input('Informe o logradouro: ')
+    numero = input('Informe o número: ')
+    bairro = input('Informe o bairro: ')
+    cidade = input('Informe a cidade: ')
+    uf = input('Informe a sigla do estado: ')
+    contas = []
+
+    print(cpf)
+    cpf = re.sub(r'\D', '', cpf)
+    cpf = PessoaFisica.verificar_cpf_unico(cpf)  # Pass the required second argument
+
+    cliente = PessoaFisica(nome, data_nascimento, cpf, contas, logradouro, numero, bairro, cidade, uf)
+    cliente.salvar_cliente()
+    print('Usuário cadastrado com sucesso!')
+    return cliente
+
+
+def cadastrar_conta(cliente):
+    print('=== Cadastro de Conta Corrente ===')
+    print(cliente)
+    num_cpf = cliente.cpf
+
+    if num_cpf == None:
+        print('Você precisa cadastrar um usuário antes de criar uma conta.')
+        num_cpf = cadastrar_usuario()
+
+    try:
+        conta = ContaCorrente(num_cpf)
+        conta.salvar_conta_corrente()
+        print('Conta cadastrada com sucesso!')
+        print(conta)
+    except Exception as e:
+        print(f'Erro ao cadastrar conta: {e}')
+        conta = None
+
+    return conta
 
 
 def deposito(saldo, extrato):
@@ -14,54 +57,18 @@ def deposito(saldo, extrato):
             return saldo, extrato
 
 
-def saque(saldo, extrato, numero_saques, limite, LIMITE_SAQUES):
-    if numero_saques >= LIMITE_SAQUES:
-        print('Número máximo de saques excedido.')
+def mostrar_extrato(conta):
+    print("\n================ EXTRATO ================")
+    transacoes = conta.historico.transacoes
+
+    extrato = ""
+    if not transacoes:
+        extrato = "Não foram realizadas movimentações."
     else:
-        valor_saque = float(input('Informe o valor do saque: '))
+        for transacao in transacoes:
+            extrato += f"\n{transacao['tipo']}:\n\tR$ {transacao['valor']:.2f}"
 
-        if valor_saque > saldo:
-            print('Saldo insuficiente.')
-        elif valor_saque > limite:
-            print('Valor acima do limite.')
-        elif valor_saque < 0:
-            print('Valor inválido.')
-        else:
-            saldo -= valor_saque
-            extrato += f'Saque: R$ {valor_saque:.2f}\\n'
-            numero_saques += 1
-    
-    return saldo, extrato, numero_saques
+    print(extrato)
+    print(f"\nSaldo:\n\tR$ {conta.saldo:.2f}")
+    print("==========================================")
 
-
-def mostrar_extrato(extrato, saldo):
-    print('--- Extrato ---')
-    extrato_formatado = extrato.replace('\\n', '\n')
-    print(extrato_formatado + f'Saldo: R$ {saldo:.2f}')
-
-
-def cadastrar_usuario():
-    nome = input('Informe o nome: ')
-    data_nascimento = input('Informe a data de nascimento: ')
-    cpf = input('Informe o CPF: ')
-    logradouro = input('Informe o logradouro: ')
-    numero = input('Informe o número: ')
-    bairro = input('Informe o bairro: ')
-    cidade = input('Informe a cidade: ')
-    uf = input('Informe a sigla do estado: ')
-
-    usuario = Usuario(nome, data_nascimento, cpf, logradouro, numero, bairro, cidade, uf)
-    print('Usuário cadastrado com sucesso!')
-
-    return usuario.cpf
-
-
-def cadastrar_conta(num_cpf):
-    if num_cpf == None:
-        print('Você precisa cadastrar um usuário antes de criar uma conta.')
-        num_cpf = cadastrar_usuario()
-
-    conta = Conta(num_cpf)
-    print('Conta cadastrada com sucesso!')
-
-    return conta.numero_conta

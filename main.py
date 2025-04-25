@@ -1,44 +1,32 @@
 import csv
-from operacoes import deposito, saque, mostrar_extrato, cadastrar_usuario, cadastrar_conta
+from Clientes import PessoaFisica
+from Contas import ContaCorrente, Saque, Deposito
+from operacoes import cadastrar_usuario, cadastrar_conta, mostrar_extrato
 
 
-def show_menu_cc(cc):
-    menu = '''
+def main():
+    print('Bem-vindo ao sistema bancário!')
+    num_cpf = input('Digite seu cpf: ')
+    num_conta = input('Digite sua conta: ')
+    
+    try:
+        cliente = buscar_cliente(num_cpf)
+        print(f'cliente: {cliente}')
+        conta = obter_dados_conta_corrente(cliente, num_conta)
+        print(f'conta:\n{conta}')
 
-    [d] Depositar
-    [s] Sacar
-    [e] Extrato
-    [cc] Cadastrar conta
-    [q] Sair
-
-    => '''
-
-    saldo = cc['saldo']
-    limite = 500
-    extrato = cc['extrato']
-    numero_saques = 0
-    LIMITE_SAQUES = 3
-
-    while True:
-        opcao = input(menu)
-
-        if opcao == 'd':
-            saldo, extrato = deposito(saldo, extrato)
-            atualizar_conta(cc['numero_conta'], cc['agencia'], cc['usuario'], saldo, extrato)
-        elif opcao == 's':
-            saldo, extrato, numero_saques = saque(saldo, extrato, numero_saques, limite, LIMITE_SAQUES)
-            atualizar_conta(cc['numero_conta'], cc['agencia'], cc['usuario'], saldo, extrato)
-        elif opcao == 'e':
-            mostrar_extrato(extrato, saldo)
-        elif opcao == 'cc':
-            cadastrar_conta(cc['usuario'])
-        elif opcao == 'q':
-            break
+        if conta != None:
+            show_menu_cc(cliente, conta)
         else:
-            print('Operação inválida, por favor selevione novamente a operação desejada.')
+            print(f'Dados não encontrados.')
+            show_menu_novo_cliente(cliente)
+    except Exception as e:
+        print(f'Erro ao obter dados da conta: {e}')
+        print(f'Saldo: {conta.saldo}')
+        show_menu_novo_cliente(cliente)
 
 
-def show_menu_non_cc(num_cpf):
+def show_menu_novo_cliente(cliente):
     menu = '''
 
     [c] Cadastrar usuário
@@ -51,59 +39,104 @@ def show_menu_non_cc(num_cpf):
         opcao = input(menu)
 
         if opcao == 'c':
-            cadastrar_usuario()
+            cliente = cadastrar_usuario()
         elif opcao == 'cc':
-            cadastrar_conta(num_cpf)
+            conta = cadastrar_conta(cliente)
         elif opcao == 'q':
             break
 
 
-def obter_dados_cc(num_cpf, num_cc):
+def show_menu_cc(cliente, conta):
+    menu = f'''
+    cliente: {cliente.nome}
+    conta: {conta.numero}
+
+    [d] Depositar
+    [s] Sacar
+    [e] Extrato
+    [cc] Cadastrar conta
+    [q] Sair
+
+    => '''
+
+    numero_saques = 0
+
+    while True:
+        opcao = input(menu)
+
+        if opcao == 'd':
+            valor_deposito = float(input('Informe o valor do deposito: '))
+            transacao = Deposito(valor_deposito)
+            cliente.realizar_transacao(conta, transacao)
+            conta.atualizar_conta_corrente()
+        elif opcao == 's':
+            valor_saque = float(input('Informe o valor do saque: '))
+            transacao = Saque(valor_saque)
+            cliente.realizar_transacao(conta, transacao)
+            conta.atualizar_conta_corrente()
+        elif opcao == 'e':
+            print('extrato')
+            mostrar_extrato(conta)
+        elif opcao == 'cc':
+            cadastrar_conta(cliente)
+        elif opcao == 'q':
+            break
+        else:
+            print('Operação inválida, por favor selevione novamente a operação desejada.')
+
+
+def buscar_cliente(num_cpf):
     try:
-        with open('./data/contas.csv', 'r') as file:
+        with open('./data/Clientes.csv', 'r') as file:
             reader = csv.reader(file)
             for linha in reader:
-                if linha[0] == num_cc and linha[2] == num_cpf:
-                    # print(f'Conta: {linha[0]}, Agência: {linha[1]}, Usuário: {linha[2]}, Saldo: {linha[3]}')
-                    cc = {
-                        'numero_conta': linha[0],
-                        'agencia': linha[1],
-                        'usuario': linha[2],
-                        'saldo': float(linha[3]),
-                        'extrato': linha[4]
-                    }
-                    return cc
+                if linha[2] == num_cpf:
+                    print('Cliente encontrado')
+
+                    nome = linha[0]
+                    data_nascimento = linha[1]
+                    cpf = linha[2]
+                    endereco = linha[3]
+                    contas = linha[4]
+                    
+                    cliente = PessoaFisica(nome, data_nascimento, cpf, contas, endereco)
+                    return cliente
+            return None
     except FileNotFoundError:
-        print('Arquivo de contas não encontrado.')
-
-
-def atualizar_conta(num_cc, agencia, usuario, saldo, extrato):
-    try:
-        with open('./data/contas.csv', 'r') as file:
-            reader = list(csv.reader(file))
-        
-        with open('./data/contas.csv', 'w', newline='') as file:
-            writer = csv.writer(file)
-            for linha in reader:
-                if linha[0] == num_cc and linha[2] == usuario:
-                    linha[3] = str(saldo)
-                    linha[4] = extrato
-                writer.writerow(linha)
-    except FileNotFoundError:
-        print('Arquivo de contas não encontrado.')
-
-
-def main():
-    print('Bem-vindo ao sistema bancário!')
-    num_cpf = input('Digite seu cpf: ')
-    num_cc = input('Digite sua conta: ')
-    
-    try:
-        cc = obter_dados_cc(num_cpf, num_cc)
-        show_menu_cc(cc)
+        print('Arquivo de clientes não encontrado.')
     except Exception as e:
-        print(f'Erro ao obter dados da conta')
-        show_menu_non_cc(num_cpf)
+        print(f'Erro ao buscar cliente: {e}')
+    return None
+
+
+def obter_dados_conta_corrente(cliente, num_conta):
+    num_cpf = cliente.cpf
+    print(f'num_cpf: {num_cpf}')
+    print(f'procurando num_conta: {num_conta}')
+
+    try:
+        with open('./data/Contas.csv', 'r') as file:
+            reader = csv.reader(file)
+            for linha in reader:
+                print(linha)
+                print(linha[0] == num_conta and linha[2] == num_cpf)
+                if linha[0] == num_conta and linha[2] == num_cpf:
+                    numero_conta = linha[0]
+                    agencia = linha[1]
+                    cliente = linha[2]
+                    saldo = float(linha[3])
+                    historico = linha[4]
+                    limite = linha[5]
+                    limite_saques = linha[6]
+
+                    conta = ContaCorrente(cliente, limite, limite_saques, saldo, numero_conta, agencia)
+                    return conta
+            return None
+    except FileNotFoundError:
+        print('Arquivo de contas não encontrado.')
+    except Exception as e:
+        print(e)
+    return None
 
 
 main()
