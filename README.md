@@ -37,12 +37,15 @@ python main.py
 
 ### 📄 Estrutura do Projeto  
 ```markdown
-📂 dio-sistema-bancario  
- ├── data/               # Pasta para armazenar arquivos CSV  
- │   ├── usuarios.csv    # Armazena os usuários cadastrados  
- │   ├── contas.csv      # Armazena as contas bancárias  
- ├── main.py             # Script principal do sistema bancário  
- ├── README.md           # Documentação do projeto  
+📂 dio-sistema-bancario
+ ├── data/               # Pasta para armazenar arquivos CSV
+ │   ├── Clientes.csv    # Armazena os usuários cadastrados
+ │   ├── Contas.csv      # Armazena as contas bancárias
+ ├── main.py             # Script principal do sistema bancário
+ ├── Clientes.py         # Classe de clientes
+ ├── Contas.py           # Classe das contas e transações
+ ├── operacoes.py        # Funções auxiliares para as operações do menu
+ ├── README.md           # Documentação do projeto
 ```
 
 ### 🧠 Conceitos Aplicados
